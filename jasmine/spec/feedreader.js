@@ -64,14 +64,14 @@ $(function() {
 
     /* Test that ensures the menu changes
      * visibility when the menu icon is clicked with two expectations: does the menu display when
-     * clicked and does it hide when clicked again.
+     * clicked and does it hides when clicked again.
      */
 
     it('changes visibility on click', function() {
       let body = document.body.classList;
 
 
-      // first click on menu-icon-link to see menu --> class menu-hidden disappear
+      // first click on menu-icon-link to see menu --> class menu-hidden disappears
 
       $('a.menu-icon-link').click();
       expect(body).not.toContain('menu-hidden');
@@ -131,8 +131,4 @@ $(function() {
 
   });
 
-
-  //
-  //
-  // });
 }());
