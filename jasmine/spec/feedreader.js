@@ -20,11 +20,8 @@ $(function() {
      * empty.
      */
     it('are defined and not empty', function() {
-      allFeeds.forEach(function() {
-        expect(allFeeds).toBeDefined();
-        expect(allFeeds.length).not.toBe(0);
-      });
-
+      expect(allFeeds).toBeDefined();
+      expect(allFeeds.length).not.toBe(0);
     });
 
     /* Test that loops through each feed
