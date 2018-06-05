@@ -14,12 +14,17 @@ $(function() {
    * feeds definitions, the allFeeds variable in our application.
    */
   describe('RSS Feeds', function() {
+
     /* This is our first test - it tests to make sure that the
      * allFeeds variable has been defined and that it is not
      * empty.
      */
     it('are defined and not empty', function() {
-      expect(allFeeds.length).not.toBe(0);
+      allFeeds.forEach(function() {
+        expect(allFeeds).toBeDefined();
+        expect(allFeeds.length).not.toBe(0);
+      });
+
     });
 
     /* Test that loops through each feed
@@ -29,7 +34,8 @@ $(function() {
 
     it('have a URL link defined', function() {
       allFeeds.forEach(function(feed) {
-        expect(feed.url).not.toBe('');
+        expect(feed.url).toBeDefined();
+        expect(feed.url.length).toBeGreaterThan(0);
       });
     });
 
@@ -41,7 +47,8 @@ $(function() {
 
     it('have a name defined', function() {
       allFeeds.forEach(function(feed) {
-        expect(feed.name).not.toBe('');
+        expect(feed.name).toBeDefined();
+        expect(feed.name.length).toBeGreaterThan(0);
       });
 
     });
@@ -88,7 +95,7 @@ $(function() {
   /* New test suite named "Initial Entries" */
 
   describe("Initial Entries", function() {
-    var feed = $('.feed');
+    let feedLength;
 
     /* Test that ensures when the loadFeed
      * function is called and completes its work, there is at least
@@ -98,12 +105,16 @@ $(function() {
      */
 
     beforeEach(function(done) {
-      loadFeed(0, done);
+      loadFeed(0, function() {
+        feedLength = $('.feed .entry').length;
+        done();
+
+      });
     });
 
     it('loads at least one entry', function(done) {
 
-      expect(feed.length).not.toBe(0);
+      expect(feedLength).toBeGreaterThan(0);
       done();
     });
   });
@@ -111,7 +122,8 @@ $(function() {
   /* New test suite named "New Feed Selection" */
 
   describe("New Feed Selection", function() {
-    let oldFeed;
+    let oldFeed,
+      newFeed;
 
     /* Test that ensures when a new feed is loaded
      * by the loadFeed function that the content actually changes.
@@ -119,16 +131,24 @@ $(function() {
      */
 
     beforeEach(function(done) {
-      loadFeed(1, done);
-      let oldFeed = $('.feed').html;
+      loadFeed(0, function() {
+        oldFeed = $('.feed').html;
+
+
+        loadFeed(1, function() {
+          newFeed = $('.feed').html;
+          done();
+        });
+
+      });
+
+      it('changes content at load', function(done) {
+
+        expect(newFeed !== oldFeed).toBe(true);
+        done();
+      });
+
     });
-
-    it('changes content at load', function() {
-      let newFeed = $('.feed').html
-      expect(newFeed).not.toEqual(oldFeed);
-
-    });
-
   });
 
 }());
